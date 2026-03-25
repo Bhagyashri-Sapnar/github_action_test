@@ -3,13 +3,16 @@ import sys, json, os
 def print_error_message(result):
     error_message = ""
     failed_checks = False
-    file_path = result.get("results").get("filePath", "Unknown")
+    passed_files = set()
+    failed_files = set()
     
     if result.get("results").get("parsingErrors"):
         print("::error::Parsing error file paths="+str(result.get("results").get("parsingErrors")))
         failed_checks = True
     if result.get("results").get("failedChecks"):
         for r in result.get("results").get("failedChecks"):
+            file_path = r.get("filePath", "Unknown")
+            failed_files.add(file_path)
             line_range = "None"
             keys = ["filePath", "checkId", "checkName", "criticality", "remediation"]
             keys_names = ["File Name", "Qualys CID", "Control Name", "Criticality", "Remediation"]
@@ -25,9 +28,13 @@ def print_error_message(result):
             print(error_message)
             failed_checks = True
             error_message = ""
-    else:
-        if not result.get("results").get("parsingErrors"):
-            print("::notice::File Name=" + file_path + " - All checks passed")
+    if result.get("results").get("passedChecks"):
+        for r in result.get("results").get("passedChecks"):
+            file_path = r.get("filePath", "Unknown")
+            if file_path not in failed_files:
+                passed_files.add(file_path)
+    for file_path in passed_files:
+        print("::notice::File Name=" + file_path + " - All checks passed")
     return failed_checks
 
 
