@@ -3,6 +3,8 @@ import sys, json, os
 def print_error_message(result):
     error_message = ""
     failed_checks = False
+    file_path = result.get("results").get("filePath", "Unknown")
+    
     if result.get("results").get("parsingErrors"):
         print("::error::Parsing error file paths="+str(result.get("results").get("parsingErrors")))
         failed_checks = True
@@ -23,6 +25,9 @@ def print_error_message(result):
             print(error_message)
             failed_checks = True
             error_message = ""
+    else:
+        if not result.get("results").get("parsingErrors"):
+            print("::notice::File Name=" + file_path + " - All checks passed")
     return failed_checks
 
 
@@ -31,7 +36,8 @@ def print_failed_checks(output):
         exit(-1)
     failed_checks = False
     for result in output.get("result"):
-        failed_checks = print_error_message(result)
+        if print_error_message(result):
+            failed_checks = True
     failBuild = os.getenv("failBuild", "true").lower() == "true"
     if failed_checks:
         if failBuild :
