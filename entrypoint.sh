@@ -78,13 +78,3 @@ fi
  #cat result.json
  python resultParser.py result.json
 
-
-
-
-
-
-
-
-
-
-
