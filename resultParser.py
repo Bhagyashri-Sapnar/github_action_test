@@ -5,7 +5,7 @@ def print_error_message(result):
     failed_checks = False
     passed_files = set()
     failed_files = set()
-    
+
     if result.get("results").get("parsingErrors"):
         print("::error::Parsing error file paths="+str(result.get("results").get("parsingErrors")))
         failed_checks = True
