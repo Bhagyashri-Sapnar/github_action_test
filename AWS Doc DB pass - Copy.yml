@@ -1,10 +1,1 @@
-Resources:
-  DocDBClusterParamterGroup:
-    Type: "AWS::DocDB::DBClusterParameterGroup"
-    Properties:
-      Description: Test Parameter group
-      Family: docdb3.6
-      Name: test1
-      Parameters :
-        tls: enabled                    #CKV_AWS_90
-        audit_logs: enabled             #CKV_AWS_104
+Resources:  DocDBClusterParamterGroup:    Type: "AWS::DocDB::DBClusterParameterGroup"    Properties:      Description: Test Parameter group      Family: docdb3.6      Name: test2      Parameters :        tls: enabled                    #CKV_AWS_90        audit_logs: enabled             #CKV_AWS_104
