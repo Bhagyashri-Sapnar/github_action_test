@@ -19,9 +19,7 @@ then
         git diff --name-only --diff-filter=ACMRT HEAD^ HEAD
         foldername="qiacscanfolder_$(date +%Y%m%d%H%M%S)"
         mkdir "$foldername"
-        git diff --name-only --diff-filter=ACMRT HEAD^ HEAD | while IFS= read -r file; do
-            cp --parents "$file" "$foldername"
-        done
+        git diff --name-only -z --diff-filter=ACMRT HEAD^ HEAD | xargs -0 -I {} cp --parents "{}" "$foldername"
         SCANFOLDER="$foldername"
     fi
 else
