@@ -18,9 +18,9 @@ then
         echo "From the below files, Only the files with extensions supported by IaC module are included in the scan."
         git diff --name-only --diff-filter=ACMRT HEAD^ HEAD
         foldername="qiacscanfolder_$(date +%Y%m%d%H%M%S)"
-        mkdir "$foldername"
-        git diff --name-only -z --diff-filter=ACMRT HEAD^ HEAD | xargs -0 -I {} cp --parents "{}" "$foldername"
-        SCANFOLDER="$foldername"
+        mkdir $foldername
+        cp --parents $(git diff --name-only --diff-filter=ACMRT HEAD^ HEAD) $foldername
+        SCANFOLDER=$foldername
     fi
 else
     if [ "$SCANFOLDER" = "." ]
